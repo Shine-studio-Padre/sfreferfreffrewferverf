@@ -1,0 +1,107 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=UTF-8">
+    <title>Dd</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="{% static "shop/jquery.cookie.js" %}"></script>
+</head>
+<body>
+    <style>
+    .wrapper{
+        width: 1000px;
+        margin: 0 auto;
+    }
+    .wrapper .header{
+        width: 100%;
+        height: 40px;
+        background: #eee;
+    }
+    .wrapper .body{
+        width: 100%;
+        min-height: 600px;
+        background: #ccc;
+        font-size: 0;
+    }
+    .wrapper .body .item{
+        width: 600px;
+        min-height: 300px;
+        margin: 0 auto;
+        background: #eee;
+    }
+    .wrapper .body .item .price{
+        margin-top: 5px;
+        display: block;
+        font-size: 14px;
+        color:#000;
+    }
+    .wrapper .body .item .buy{
+        margin-top: 5px;
+        display: block;
+        font-size: 14px;
+        color:#000;
+    }
+    .wrapper .body .item .full{
+        max-width: 600px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+        .cart{
+            background: #e5e5e5;
+            font-size: 14px;
+            border: 1px solid #000;
+            position: fixed;
+            top:20%;
+            right: 10%;
+        }
+    </style>
+    <div class="wrapper">
+        <div class="header"><h1>{{item.name}}</h1></div>
+        <div class="body">
+            <div class="item">
+                <img class="full" src="{{item.image}}" alt="">
+                <p>{{ item.text }}</p>
+                <span class="price"><span class="value">{{item.price}}</span> Р</span>
+                <a href="#" class="buy">Купить</a>
+            </div>
+        </div>
+    </div>
+    <div class="cart">В корзине товар на <span class="summa">0</span> рублей <br/><a href="/order/" class="oformit">Оформить заказ</a> </div>
+<script type="text/javascript">
+    $(function () {
+        var arr1 = $.cookie('cart');
+        if(!arr1){
+                arr1 = '[]';
+            }
+        var json2 = $.parseJSON(arr1);
+        var summa1 = 0;
+            $.each(json2, function (index, value) {
+                summa1 = summa1 + parseInt(value['price']);
+            });
+            $('.cart .summa').text(summa1);
+
+
+        $(".buy").click(function () {
+            var arr = $.cookie('cart');
+            if(!arr){
+                arr = '[]';
+            }
+            var json = $.parseJSON(arr);
+            json.push({
+                'name':$('h1').text(),
+                'price':$('span.value').text(),
+                'image':$('img.full').attr('src'),
+            });
+            $.cookie('cart', JSON.stringify(json), {path:'/'});
+            var summa = 0;
+            $.each(json, function (index, value) {
+                summa = summa + parseInt(value['price']);
+            });
+            $('.cart .summa').text(summa);
+        });
+    });
+</script>
+</body>
+</html>

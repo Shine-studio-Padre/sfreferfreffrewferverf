@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=UTF-8">
+    <title>Shop</title>
+     <link rel="stylesheet" href="{% static "shop/style.css" %}">
+
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="header"><h1>{{category.name}}</h1></div>
+        <div class="body">
+            <div class="left"></div>
+            <div class="main">
+                {% for item in items %}
+                <a class="item" href="/item/{{item.id}}/">
+                    <img src="{{item.image}}" alt="">
+                    <span class="title">{{item.name}}</span>
+                    <span class="price">{{item.price}} руб</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
